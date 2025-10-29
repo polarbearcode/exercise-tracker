@@ -1,11 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import type { Exercise } from "../lib/definitions";
 
 export default function ExerciseComponent({
   exercise,
+  handleDeleteFunction,
 }: {
   exercise: Exercise;
+  handleDeleteFunction: (exercise: Exercise) => void;
 }) {
   const [repCount, setRepCount] = useState<number>(exercise.count);
 
@@ -32,6 +34,11 @@ export default function ExerciseComponent({
               <button onClick={decrementCount}>-1</button>
             </td>
             <td>{repCount}</td>
+            <td>
+              <button onClick={() => handleDeleteFunction(exercise)}>
+                Delete
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
