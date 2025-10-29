@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import type { Exercise } from "../lib/definitions";
 
 export default function ExerciseComponent({
@@ -5,6 +7,8 @@ export default function ExerciseComponent({
 }: {
   exercise: Exercise;
 }) {
+  const [repCount, setRepCount] = useState<number>(exercise.count);
+
   return (
     <>
       <table key={"table-" + exercise.name + " " + exercise.category}>
@@ -16,7 +20,7 @@ export default function ExerciseComponent({
           <td>
             <button>-1</button>
           </td>
-          <td>{exercise.count}</td>
+          <td>{repCount}</td>
         </tr>
       </table>
     </>
