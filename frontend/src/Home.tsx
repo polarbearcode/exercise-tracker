@@ -1,4 +1,5 @@
 import type { Exercise, ExerciseCategory } from "./lib/definitions";
+import ExerciseCategoryComponent from "./ui/category-component";
 
 export default function Home() {
   const ankleCirlces: Exercise = {
@@ -50,27 +51,9 @@ export default function Home() {
         <h1>Exercise Tracker</h1>
       </div>
 
-      {categoriesForPage.map((category) => {
+      {categoriesForPage.map((category: ExerciseCategory) => {
         return (
-          <div key={category.name}>
-            <h2>{category.name}</h2>
-            {category.exercises.map((exercise) => {
-              return (
-                <table key={"table-" + exercise.name + " " + category.name}>
-                  <tr>
-                    <td>{exercise.name}</td>
-                    <td>
-                      <button>+1</button>
-                    </td>
-                    <td>
-                      <button>-1</button>
-                    </td>
-                    <td>{exercise.count}</td>
-                  </tr>
-                </table>
-              );
-            })}
-          </div>
+          <ExerciseCategoryComponent key={category.name} category={category} />
         );
       })}
     </>

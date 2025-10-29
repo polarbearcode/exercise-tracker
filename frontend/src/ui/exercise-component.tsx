@@ -9,19 +9,31 @@ export default function ExerciseComponent({
 }) {
   const [repCount, setRepCount] = useState<number>(exercise.count);
 
+  function incrementCount() {
+    setRepCount(repCount + 1);
+  }
+
+  function decrementCount() {
+    if (repCount > 0) {
+      setRepCount(repCount - 1);
+    }
+  }
+
   return (
     <>
       <table key={"table-" + exercise.name + " " + exercise.category}>
-        <tr>
-          <td>{exercise.name}</td>
-          <td>
-            <button>+1</button>
-          </td>
-          <td>
-            <button>-1</button>
-          </td>
-          <td>{repCount}</td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>{exercise.name}</td>
+            <td>
+              <button onClick={incrementCount}>+1</button>
+            </td>
+            <td>
+              <button onClick={decrementCount}>-1</button>
+            </td>
+            <td>{repCount}</td>
+          </tr>
+        </tbody>
       </table>
     </>
   );
