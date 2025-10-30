@@ -1,4 +1,6 @@
+// Website's homepage (maybe the only page for now)
 import type { Exercise, ExerciseCategory } from "./lib/definitions";
+import AddExerciseForm from "./ui/add-exercise-form";
 import ExerciseCategoryComponent from "./ui/category-component";
 
 export default function Home() {
@@ -45,10 +47,15 @@ export default function Home() {
 
   const categoriesForPage: ExerciseCategory[] = [mobility, core, flexibility];
 
+  //
+  function handleAddExercise() {}
+
   return (
     <>
       <div>
         <h1>Exercise Tracker</h1>
+
+        <AddExerciseForm></AddExerciseForm>
       </div>
 
       {categoriesForPage.map((category: ExerciseCategory) => {
