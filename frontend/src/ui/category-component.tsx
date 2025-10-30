@@ -15,6 +15,10 @@ export default function ExerciseCategoryComponent({
     category.exercises
   );
 
+  /**
+   * Handles when the delete button is pressed on an exercise.
+   * Removes the exercise from the list displayed in this category.
+   */
   function handleExerciseDeleteButton(exercise: Exercise) {
     setCategoryExerciseList((prev) =>
       prev.filter((ex) => ex.name !== exercise.name)

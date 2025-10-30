@@ -1,3 +1,6 @@
+// Just a rough draft of how the website looks like.
+// Has it's own route for now .
+
 export default function TestPage() {
   return (
     <>
