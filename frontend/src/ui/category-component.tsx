@@ -4,6 +4,7 @@
 import { useState } from "react";
 import type { Exercise, ExerciseCategory } from "../lib/definitions";
 import ExerciseComponent from "./exercise-component";
+import AddExerciseForm from "./add-exercise-form";
 
 export default function ExerciseCategoryComponent({
   category,
@@ -13,6 +14,11 @@ export default function ExerciseCategoryComponent({
   // State variable: what exercises to display
   const [categoryExerciseList, setCategoryExerciseList] = useState<Exercise[]>(
     category.exercises
+  );
+
+  // for tracking unique exercise names
+  const [categoryExerciseSet, setCategoryExerciseSet] = useState<Set<string>>(
+    new Set(category.exercises.map((ex) => ex.name))
   );
 
   // track deleted exercises in the exercise category
@@ -29,6 +35,12 @@ export default function ExerciseCategoryComponent({
     );
 
     setDeletedExercises((prev) => [exercise, ...prev]);
+
+    setCategoryExerciseSet((prev) => {
+      const newSet = new Set(prev);
+      newSet.delete(exercise.name);
+      return newSet;
+    });
   }
 
   // Handle undoing deletion of an exercise.
@@ -40,11 +52,16 @@ export default function ExerciseCategoryComponent({
     setDeletedExercises((prev) => prev.slice(1));
   }
 
+  function handleAddExercise(exerciseName: string) {
+    // Check if the exercise name is unique
+  }
+
   return (
     <>
       <div key={"div-" + category.name}>
         <h2>{category.name}</h2>
         <button onClick={handleUndoDelete}>Undo</button>
+        <AddExerciseForm></AddExerciseForm>
         {categoryExerciseList.map((exercise: Exercise) => {
           return (
             <ExerciseComponent
