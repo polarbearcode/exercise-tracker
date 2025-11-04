@@ -1,10 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
+import type { AddExerciseFormState } from "../lib/definitions";
+import { addExercise } from "../lib/utils";
 
 //Form that pops up to add a new exercise to the home page.
-export default function AddExerciseForm() {
+// okay to have use client here and have form submit to database with async function
+export default function AddExerciseForm({
+  categoryExerciseSet,
+  setCategoryExerciseSet,
+}: {
+  categoryExerciseSet: Set<string>;
+  setCategoryExerciseSet: (set: Set<string>) => void;
+}) {
   const [showForm, setShowForm] = useState<boolean>(false);
+
+  const [state, formAction, isPending] = useActionState(
+    async (prevState: AddExerciseFormState, formData: FormData) => {
+      return await addExercise(
+        prevState,
+        formData,
+        categoryExerciseSet,
+        setCategoryExerciseSet
+      );
+    },
+    { success: false, message: "Form not filled out" }
+  );
   return (
     <>
       {!showForm && (

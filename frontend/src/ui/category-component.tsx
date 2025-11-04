@@ -52,16 +52,15 @@ export default function ExerciseCategoryComponent({
     setDeletedExercises((prev) => prev.slice(1));
   }
 
-  function handleAddExercise(exerciseName: string) {
-    // Check if the exercise name is unique
-  }
-
   return (
     <>
       <div key={"div-" + category.name}>
         <h2>{category.name}</h2>
         <button onClick={handleUndoDelete}>Undo</button>
-        <AddExerciseForm></AddExerciseForm>
+        <AddExerciseForm
+          categoryExerciseSet={categoryExerciseSet}
+          setCategoryExerciseSet={setCategoryExerciseSet}
+        />
         {categoryExerciseList.map((exercise: Exercise) => {
           return (
             <ExerciseComponent
