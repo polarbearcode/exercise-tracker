@@ -10,3 +10,8 @@ export type ExerciseCategory = {
   name: string;
   exercises: Exercise[];
 };
+
+export type AddExerciseFormState = {
+  success: boolean;
+  message: string;
+};
