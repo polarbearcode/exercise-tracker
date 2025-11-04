@@ -10,7 +10,6 @@ const ExerciseSchema = z.object({
 });
 
 export async function addExercise(
-  prevState: AddExerciseFormState,
   formData: FormData,
   categoryExerciseSet: Set<string>,
   setCategoryExerciseSet: (set: Set<string>) => void

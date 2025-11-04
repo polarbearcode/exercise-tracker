@@ -16,9 +16,8 @@ export default function AddExerciseForm({
   const [showForm, setShowForm] = useState<boolean>(false);
 
   const [state, formAction, isPending] = useActionState(
-    async (prevState: AddExerciseFormState, formData: FormData) => {
+    async (_prevState: AddExerciseFormState, formData: FormData) => {
       return await addExercise(
-        prevState,
         formData,
         categoryExerciseSet,
         setCategoryExerciseSet
