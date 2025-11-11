@@ -2,6 +2,7 @@
 
 import {
   useActionState,
+  useEffect,
   useState,
   type Dispatch,
   type SetStateAction,
@@ -36,6 +37,12 @@ export default function AddExerciseForm({
     },
     { success: false, message: "Form not filled out" }
   );
+
+  useEffect(() => {
+    if (state.success) {
+      setShowForm(false);
+    }
+  }, [state.success]);
   return (
     <>
       {!showForm && (
@@ -53,11 +60,12 @@ export default function AddExerciseForm({
                 name="exercise-name"
               />
               <br />
-              <label htmlFor="exercise-category">Category:</label>
               <input
                 className="border p-2 rounded mb-3 w-full"
                 placeholder="Category"
                 name="exercise-category"
+                type="hidden"
+                value={category}
               />
               <button
                 type="submit"
@@ -70,7 +78,6 @@ export default function AddExerciseForm({
               <button type="button" onClick={() => setShowForm(false)}>
                 Cancel
               </button>
-
               {state.message}
             </form>
           </div>
