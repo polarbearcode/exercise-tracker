@@ -1,17 +1,26 @@
 "use client";
 
-import { useActionState, useState } from "react";
-import type { AddExerciseFormState } from "../lib/definitions";
+import {
+  useActionState,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
+import type { AddExerciseFormState, Exercise } from "../lib/definitions";
 import { addExercise } from "../lib/utils";
 
 //Form that pops up to add a new exercise to the home page.
 // okay to have use client here and have form submit to database with async function
 export default function AddExerciseForm({
-  categoryExerciseSet,
-  setCategoryExerciseSet,
+  category,
+  categoryExerciseList,
+  categoryExerciseNamesSet,
+  setCategoryExerciseList,
 }: {
-  categoryExerciseSet: Set<string>;
-  setCategoryExerciseSet: (set: Set<string>) => void;
+  category: string;
+  categoryExerciseList: Array<Exercise>;
+  categoryExerciseNamesSet: Set<string>;
+  setCategoryExerciseList: Dispatch<SetStateAction<Array<Exercise>>>;
 }) {
   const [showForm, setShowForm] = useState<boolean>(false);
 
@@ -19,8 +28,10 @@ export default function AddExerciseForm({
     async (_prevState: AddExerciseFormState, formData: FormData) => {
       return await addExercise(
         formData,
-        categoryExerciseSet,
-        setCategoryExerciseSet
+        category,
+        categoryExerciseNamesSet,
+        categoryExerciseList,
+        setCategoryExerciseList
       );
     },
     { success: false, message: "Form not filled out" }
@@ -33,7 +44,7 @@ export default function AddExerciseForm({
       {showForm && (
         <div className="overlay">
           <div className="modal">
-            <form>
+            <form action={formAction}>
               <h3>Add An Exercise</h3>
               <label htmlFor="exercise-name">Exercise Name:</label>
               <input
@@ -51,13 +62,16 @@ export default function AddExerciseForm({
               <button
                 type="submit"
                 className="bg-blue-500 text-white p-2 rounded"
+                disabled={isPending}
               >
-                Add Exercise
+                {isPending ? "Saving" : "Add Exercise"}
               </button>
 
               <button type="button" onClick={() => setShowForm(false)}>
                 Cancel
               </button>
+
+              {state.message}
             </form>
           </div>
         </div>

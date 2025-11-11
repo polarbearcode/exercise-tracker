@@ -17,9 +17,9 @@ export default function ExerciseCategoryComponent({
   );
 
   // for tracking unique exercise names
-  const [categoryExerciseSet, setCategoryExerciseSet] = useState<Set<string>>(
-    new Set(category.exercises.map((ex) => ex.name))
-  );
+  const [categoryExerciseNamesSet, setCategoryExerciseNamesSet] = useState<
+    Set<string>
+  >(new Set(category.exercises.map((ex) => ex.name)));
 
   // track deleted exercises in the exercise category
   const [deletedExercises, setDeletedExercises] = useState<Exercise[]>([]);
@@ -36,7 +36,7 @@ export default function ExerciseCategoryComponent({
 
     setDeletedExercises((prev) => [exercise, ...prev]);
 
-    setCategoryExerciseSet((prev) => {
+    setCategoryExerciseNamesSet((prev) => {
       const newSet = new Set(prev);
       newSet.delete(exercise.name);
       return newSet;
@@ -58,8 +58,10 @@ export default function ExerciseCategoryComponent({
         <h2>{category.name}</h2>
         <button onClick={handleUndoDelete}>Undo</button>
         <AddExerciseForm
-          categoryExerciseSet={categoryExerciseSet}
-          setCategoryExerciseSet={setCategoryExerciseSet}
+          category={category.name}
+          categoryExerciseList={categoryExerciseList}
+          categoryExerciseNamesSet={categoryExerciseNamesSet}
+          setCategoryExerciseList={setCategoryExerciseList}
         />
         {categoryExerciseList.map((exercise: Exercise) => {
           return (

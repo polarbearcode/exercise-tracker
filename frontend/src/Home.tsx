@@ -47,15 +47,13 @@ export default function Home() {
 
   const categoriesForPage: ExerciseCategory[] = [mobility, core, flexibility];
 
-  //
-  function handleAddExercise() {}
+  // TODO: build my categories from the data pulling
+  // TODO: add a category
 
   return (
     <>
       <div>
         <h1>Exercise Tracker</h1>
-
-        <AddExerciseForm></AddExerciseForm>
       </div>
 
       {categoriesForPage.map((category: ExerciseCategory) => {

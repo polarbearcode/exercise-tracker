@@ -1,6 +1,11 @@
 // form that pops up to add a new category to the home page
 "use client";
-import { useActionState, useState } from "react";
+import {
+  useActionState,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import { addCategory } from "../lib/utils";
 import type { AddExerciseFormState } from "../lib/definitions";
 
@@ -9,7 +14,7 @@ export default function AddCategoryForm({
   setExerciseCategories,
 }: {
   exerciseCategories: Set<string>;
-  setExerciseCategories: (set: Set<string>) => void;
+  setExerciseCategories: Dispatch<SetStateAction<Set<string>>>;
 }) {
   const [showForm, setShowForm] = useState<boolean>(false);
 
@@ -31,7 +36,7 @@ export default function AddCategoryForm({
       {showForm && (
         <div className="overlay">
           <div className="modal">
-            <form>
+            <form action={formAction}>
               <h3>Add An Exercise Category</h3>
               <label htmlFor="exercise-name">Category:</label>
               <input
@@ -43,8 +48,9 @@ export default function AddCategoryForm({
               <button
                 type="submit"
                 className="bg-blue-500 text-white p-2 rounded"
+                disabled={isPending}
               >
-                Add Exercise
+                {isPending ? "Saving" : "Add Category"}
               </button>
 
               <button type="button" onClick={() => setShowForm(false)}>
