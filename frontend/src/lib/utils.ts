@@ -1,6 +1,10 @@
 "use server";
 import * as z from "zod";
-import type { AddExerciseFormState, Exercise } from "./definitions";
+import type {
+  AddExerciseFormState,
+  Exercise,
+  ExerciseCategory,
+} from "./definitions";
 import type { Dispatch, SetStateAction } from "react";
 
 // Add exercise form must have a name and category filled out
@@ -75,8 +79,9 @@ export async function addExercise(
  */
 export async function addCategory(
   formData: FormData,
-  exerciseCategories: Set<string>,
-  setExerciseCategories: (set: Set<string>) => void
+  exerciseCategories: ExerciseCategory[],
+  exerciseCategoriesNames: Set<string>,
+  setExerciseCategories: Dispatch<SetStateAction<ExerciseCategory[]>>
 ): Promise<AddExerciseFormState> {
   const validatedFields = CategorySchema.safeParse({
     name: formData.get("name")?.toString() || "",
@@ -87,7 +92,7 @@ export async function addCategory(
     return { success: false, message: validatedFields.error.issues[0].message };
   } else {
     const { name: categoryName } = validatedFields.data;
-    if (exerciseCategories.has(categoryName)) {
+    if (exerciseCategoriesNames.has(categoryName)) {
       alert("Category already exists.");
       return {
         success: false,

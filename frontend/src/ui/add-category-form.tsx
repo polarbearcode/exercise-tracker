@@ -2,19 +2,25 @@
 "use client";
 import {
   useActionState,
+  useEffect,
   useState,
   type Dispatch,
   type SetStateAction,
 } from "react";
 import { addCategory } from "../lib/utils";
-import type { AddExerciseFormState } from "../lib/definitions";
+import type {
+  AddExerciseFormState,
+  ExerciseCategory,
+} from "../lib/definitions";
 
 export default function AddCategoryForm({
   exerciseCategories,
+  exerciseCategoriesNames,
   setExerciseCategories,
 }: {
-  exerciseCategories: Set<string>;
-  setExerciseCategories: Dispatch<SetStateAction<Set<string>>>;
+  exerciseCategories: ExerciseCategory[];
+  exerciseCategoriesNames: Set<string>;
+  setExerciseCategories: Dispatch<SetStateAction<ExerciseCategory[]>>;
 }) {
   const [showForm, setShowForm] = useState<boolean>(false);
 
@@ -23,11 +29,18 @@ export default function AddCategoryForm({
       return await addCategory(
         formData,
         exerciseCategories,
+        exerciseCategoriesNames,
         setExerciseCategories
       );
     },
     { success: false, message: "Form not filled out" }
   );
+
+  useEffect(() => {
+    if (state.success) {
+      setShowForm(false);
+    }
+  }, [state.success]);
   return (
     <>
       {!showForm && (
