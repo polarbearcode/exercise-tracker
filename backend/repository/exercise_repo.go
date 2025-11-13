@@ -25,7 +25,7 @@ func AddExercise(exercise models.Exercise) error {
     return err
 }
 
-func DeleteExercise(exercise models.Exercise) error {
-	_, _, err := config.Supabase.From("exercises").Delete("", "").Eq("name", exercise.Name).Execute()
+func DeleteExercise(exerciseName string) error {
+	_, _, err := config.Supabase.From("exercises").Delete("", "").Eq("name", exerciseName).Execute()
 	return err 
 }
