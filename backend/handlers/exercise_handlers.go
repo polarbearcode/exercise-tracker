@@ -63,5 +63,24 @@ func DeleteExercise(w http.ResponseWriter, r *http.Request) {
 
     w.WriteHeader(http.StatusCreated)
     json.NewEncoder(w).Encode(map[string]string{"message": fmt.Sprintf("Exercise %s deleted", exerciseName)})
+}
 
+func UpdateExerciseCount(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+    var ex models.Exercise
+    if err := json.NewDecoder(r.Body).Decode(&ex); err != nil {
+		utils.LogErrorJSON(w, r, http.StatusBadRequest, err, "Invalid JSON to update exercise")
+        http.Error(w, "Invalid JSON to update exercise", http.StatusBadRequest)
+        return
+    }
+
+	if err := repository.UpdateExerciseCount(ex.Name, ex.Count); err != nil {
+		utils.LogErrorJSON(w, r, http.StatusInternalServerError, err, fmt.Sprintf("Error updating exercise: %s with count %d", ex.Name, ex.Count))
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+    json.NewEncoder(w).Encode(map[string]string{"message": fmt.Sprintf("Exercise %s updated to count %d", ex.Name, ex.Count)})
 }

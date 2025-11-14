@@ -29,3 +29,8 @@ func DeleteExercise(exerciseName string) error {
 	_, _, err := config.Supabase.From("exercises").Delete("", "").Eq("name", exerciseName).Execute()
 	return err 
 }
+
+func UpdateExerciseCount(exerciseName string, newCount int) error {
+	_, _, err := config.Supabase.From("exercises").Update(map[string]interface{}{"count": newCount}, "", "").Eq("name", exerciseName).Execute()
+	return err
+}
