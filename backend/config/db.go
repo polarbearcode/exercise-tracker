@@ -4,7 +4,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/joho/godotenv"
 	"github.com/supabase-community/supabase-go"
 )
 
@@ -12,13 +11,18 @@ var Supabase *supabase.Client
 
 func InitDB() {
 
-	err := godotenv.Load()
-    if err != nil {
-        log.Println("No .env file found — using system environment variables")
-    }
 	
     url := os.Getenv("DB_URL")
+
+    if url == "" {
+        log.Fatal("DB_URL environment variable is not set")
+    }
+
     key := os.Getenv("DB_API_KEY")
+
+    if key == "" {
+        log.Fatal("DB_API_KEY environment variable is not set")
+    }
 
     client, err := supabase.NewClient(url, key, nil)
     if err != nil {
