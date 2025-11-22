@@ -34,6 +34,8 @@ func AddExercise(w http.ResponseWriter, r *http.Request) {
         return
     }
 
+	utils.CheckExerciseFields(w, r, ex)
+
     if err := repository.AddExercise(ex); err != nil {
 		utils.LogErrorJSON(w, r, http.StatusInternalServerError, err, fmt.Sprintf("Error adding exercise: %s", ex.Name))
         http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -74,6 +76,8 @@ func UpdateExerciseCount(w http.ResponseWriter, r *http.Request) {
         http.Error(w, "Invalid JSON to update exercise", http.StatusBadRequest)
         return
     }
+
+	utils.CheckExerciseFields(w, r, ex)
 
 	if err := repository.UpdateExerciseCount(ex.Name, ex.Count); err != nil {
 		utils.LogErrorJSON(w, r, http.StatusInternalServerError, err, fmt.Sprintf("Error updating exercise: %s with count %d", ex.Name, ex.Count))
