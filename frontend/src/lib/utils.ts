@@ -6,6 +6,7 @@ import type {
   ExerciseCategory,
 } from "./definitions";
 import type { Dispatch, SetStateAction } from "react";
+import { addExerciseToDB } from "./api";
 
 // Add exercise form must have a name and category filled out
 // and be a string
@@ -55,13 +56,18 @@ export async function addExercise(
     const newExercise: Exercise = {
       name: exerciseName,
       count: 0,
-      dateAdded: new Date().toLocaleDateString(),
+      date_added: new Date().toLocaleDateString(),
       category: category,
     };
 
     const newExerciseList: Array<Exercise> = Array.from(categoryExerciseList);
+
     newExerciseList.push(newExercise);
     setCategoryExerciseList(newExerciseList);
+
+    const res: Response = await addExerciseToDB(newExercise);
+
+    console.log("Response from adding exercise to DB:", res);
 
     return {
       success: true,
@@ -84,7 +90,7 @@ export async function addCategory(
   setExerciseCategories: Dispatch<SetStateAction<ExerciseCategory[]>>
 ): Promise<AddExerciseFormState> {
   const validatedFields = CategorySchema.safeParse({
-    name: formData.get("name")?.toString() || "",
+    name: formData.get("category-name")?.toString() || "",
   });
 
   if (!validatedFields.success) {
@@ -99,12 +105,19 @@ export async function addCategory(
         message: `Category ${categoryName} already exists.`,
       };
     }
-    const newSet = new Set(exerciseCategories);
-    newSet.add(categoryName);
-    setExerciseCategories(newSet);
+
+    const newCategory: ExerciseCategory = { name: categoryName, exercises: [] };
+    const newCategoryList = Array.from(exerciseCategories);
+    newCategoryList.push(newCategory);
+    setExerciseCategories(newCategoryList);
     return {
       success: true,
       message: `Category ${categoryName} added successfully.`,
     };
   }
+}
+
+export async function undoExerciseDeletion(exercise: Exercise): Promise<void> {
+  const res: Response = await addExerciseToDB(exercise);
+  console.log("Response from undoing exercise deletion in DB:", res);
 }
