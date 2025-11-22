@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { Exercise, ExerciseCategory } from "../lib/definitions";
 import ExerciseComponent from "./exercise-component";
 import AddExerciseForm from "./add-exercise-form";
+import { deleteExerciseFromDB } from "../lib/api";
 
 export default function ExerciseCategoryComponent({
   category,
@@ -29,7 +30,7 @@ export default function ExerciseCategoryComponent({
    * Removes the exercise from the list displayed in this category.
    * Puts it to top of the deleted exercise stack.
    */
-  function handleExerciseDeleteButton(exercise: Exercise) {
+  async function handleExerciseDeleteButton(exercise: Exercise) {
     setCategoryExerciseList((prev) =>
       prev.filter((ex) => ex.name !== exercise.name)
     );
@@ -41,6 +42,8 @@ export default function ExerciseCategoryComponent({
       newSet.delete(exercise.name);
       return newSet;
     });
+
+    await deleteExerciseFromDB(exercise.name);
   }
 
   // Handle undoing deletion of an exercise.

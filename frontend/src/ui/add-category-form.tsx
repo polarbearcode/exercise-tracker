@@ -12,6 +12,7 @@ import type {
   AddExerciseFormState,
   ExerciseCategory,
 } from "../lib/definitions";
+import { useAsyncFormAction } from "../lib/useAsyncFormAction";
 
 export default function AddCategoryForm({
   exerciseCategories,
@@ -24,7 +25,7 @@ export default function AddCategoryForm({
 }) {
   const [showForm, setShowForm] = useState<boolean>(false);
 
-  const [state, formAction, isPending] = useActionState(
+  const [state, formAction, isPending] = useAsyncFormAction(
     async (_prevState: AddExerciseFormState, formData: FormData) => {
       return await addCategory(
         formData,
@@ -44,18 +45,18 @@ export default function AddCategoryForm({
   return (
     <>
       {!showForm && (
-        <button onClick={() => setShowForm(true)}>Add Exercise</button>
+        <button onClick={() => setShowForm(true)}>Add Category</button>
       )}
       {showForm && (
         <div className="overlay">
           <div className="modal">
-            <form action={formAction}>
+            <form onSubmit={formAction}>
               <h3>Add An Exercise Category</h3>
               <label htmlFor="exercise-name">Category:</label>
               <input
                 className="border p-2 rounded mb-3 w-full"
                 placeholder="Name"
-                name="exercise-name"
+                name="category-name"
               />
 
               <button

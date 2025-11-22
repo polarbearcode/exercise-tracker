@@ -9,6 +9,7 @@ import {
 } from "react";
 import type { AddExerciseFormState, Exercise } from "../lib/definitions";
 import { addExercise } from "../lib/utils";
+import { useAsyncFormAction } from "../lib/useAsyncFormAction";
 
 //Form that pops up to add a new exercise to the home page.
 // okay to have use client here and have form submit to database with async function
@@ -25,7 +26,7 @@ export default function AddExerciseForm({
 }) {
   const [showForm, setShowForm] = useState<boolean>(false);
 
-  const [state, formAction, isPending] = useActionState(
+  const [state, formAction, isPending] = useAsyncFormAction(
     async (_prevState: AddExerciseFormState, formData: FormData) => {
       return await addExercise(
         formData,
@@ -51,7 +52,7 @@ export default function AddExerciseForm({
       {showForm && (
         <div className="overlay">
           <div className="modal">
-            <form action={formAction}>
+            <form onSubmit={formAction}>
               <h3>Add An Exercise</h3>
               <label htmlFor="exercise-name">Exercise Name:</label>
               <input

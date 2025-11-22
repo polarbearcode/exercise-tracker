@@ -1,6 +1,7 @@
 "use client";
 import { useState, type Dispatch, type SetStateAction } from "react";
 import type { Exercise } from "../lib/definitions";
+import { updateExerciseCountInDB } from "../lib/api";
 
 export default function ExerciseComponent({
   exercise,
@@ -11,13 +12,29 @@ export default function ExerciseComponent({
 }) {
   const [repCount, setRepCount] = useState<number>(exercise.count);
 
-  function incrementCount() {
+  async function incrementCount() {
+    exercise.count += 1;
     setRepCount(repCount + 1);
+    await updateExerciseCountInDB({
+      name: exercise.name,
+      count: repCount + 1,
+      date_added: exercise.date_added,
+      category: exercise.category,
+      description: exercise.description,
+    });
   }
 
-  function decrementCount() {
+  async function decrementCount() {
     if (repCount > 0) {
       setRepCount(repCount - 1);
+      exercise.count -= 1;
+      await updateExerciseCountInDB({
+        name: exercise.name,
+        count: repCount - 1,
+        date_added: exercise.date_added,
+        category: exercise.category,
+        description: exercise.description,
+      });
     }
   }
 
