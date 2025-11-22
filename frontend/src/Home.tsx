@@ -1,66 +1,21 @@
 // Website's homepage (maybe the only page for now)
-import type { Exercise, ExerciseCategory } from "./lib/definitions";
-import AddExerciseForm from "./ui/add-exercise-form";
-import ExerciseCategoryComponent from "./ui/category-component";
+import type { Exercise } from "./lib/definitions";
+import HomepageContainer from "./ui/homepage-render-component";
+import { fetchExercisesFromDB } from "./lib/api";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const ankleCirlces: Exercise = {
-    name: "Ankle Circles",
-    count: 10,
-    dateAdded: "2025-10-28",
-    category: "Mobility",
-    description:
-      "Rotate your ankles in circular motions to improve flexibility.",
-  };
+  const [exerciseData, setExerciseData] = useState([]);
 
-  const planks: Exercise = {
-    name: "Planks",
-    count: 3,
-    dateAdded: "2025-10-28",
-    category: "Core",
-    description: "Hold a plank position to strengthen your core muscles.",
-  };
-
-  const hamstringStretch: Exercise = {
-    name: "Hamstring Stretch",
-    count: 5,
-    dateAdded: "2025-10-28",
-    category: "Flexibility",
-    description:
-      "Stretch your hamstrings to improve flexibility and reduce injury risk.",
-  };
-
-  const mobility: ExerciseCategory = {
-    name: "Mobility",
-    exercises: [ankleCirlces],
-  };
-
-  const core: ExerciseCategory = {
-    name: "Core",
-    exercises: [planks],
-  };
-
-  const flexibility: ExerciseCategory = {
-    name: "Flexibility",
-    exercises: [hamstringStretch],
-  };
-
-  const categoriesForPage: ExerciseCategory[] = [mobility, core, flexibility];
-
-  // TODO: build my categories from the data pulling
-  // TODO: add a category
+  useEffect(() => {
+    fetch("http://localhost:8080/api/exercise")
+      .then((res) => res.json())
+      .then(setExerciseData);
+  }, []);
 
   return (
     <>
-      <div>
-        <h1>Exercise Tracker</h1>
-      </div>
-
-      {categoriesForPage.map((category: ExerciseCategory) => {
-        return (
-          <ExerciseCategoryComponent key={category.name} category={category} />
-        );
-      })}
+      <HomepageContainer exerciseData={exerciseData} />
     </>
   );
 }
