@@ -27,6 +27,7 @@ func NewRouter() http.Handler {
 		r.Get("/exercise", handlers.GetExercises)
 		r.Post("/exercise", handlers.AddExercise)
 		r.Delete("/exercise/{name}", handlers.DeleteExercise)
+		r.Put("/exercise", handlers.UpdateExerciseCount)
 	})
 
 	return r
