@@ -1,7 +1,7 @@
 export type Exercise = {
   name: string;
   count: number;
-  dateAdded: string;
+  date_added: string;
   category: string;
   description?: string;
 };
