@@ -1,12 +1,6 @@
 // form that pops up to add a new category to the home page
 "use client";
-import {
-  useActionState,
-  useEffect,
-  useState,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { addCategory } from "../lib/utils";
 import type {
   AddExerciseFormState,

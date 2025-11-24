@@ -1,5 +1,5 @@
 "use client";
-import { useState, type Dispatch, type SetStateAction } from "react";
+import { useState } from "react";
 import type { Exercise } from "../lib/definitions";
 import { updateExerciseCountInDB } from "../lib/api";
 
