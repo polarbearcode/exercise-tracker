@@ -2,6 +2,8 @@ import type { Exercise } from "./definitions";
 
 const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
+console.log("API BASE URL:", BASE_URL);
+
 export function addExerciseToDB(exercise: Exercise): Promise<Response> {
   return fetch(`${BASE_URL}/exercise`, {
     method: "POST",
