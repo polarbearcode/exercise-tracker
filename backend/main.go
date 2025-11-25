@@ -29,6 +29,4 @@ func main() {
 		log.Println("Running in lambda")
 		lambda.Start(httpadapter.New(r).ProxyWithContext)
 	}
-
-	http.ListenAndServe(":8080", r)
 }
