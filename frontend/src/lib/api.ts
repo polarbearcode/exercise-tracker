@@ -31,6 +31,6 @@ export function updateExerciseCountInDB(exercise: Exercise): Promise<Response> {
 }
 
 export async function fetchExercisesFromDB(): Promise<Exercise[]> {
-  const res = await fetch(`${BASE_URL}/exercises`);
+  const res = await fetch(`${BASE_URL}/exercise`);
   return await res.json();
 }
